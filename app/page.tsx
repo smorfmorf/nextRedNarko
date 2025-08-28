@@ -1,5 +1,6 @@
 import { Container } from "@/components/container";
 import { Filters } from "@/components/filters";
+import { ProductsGroupList } from "@/components/products-group-list";
 import { Title } from "@/components/title";
 import { TopBar } from "@/components/topbar";
 
@@ -18,22 +19,14 @@ export default function Home() {
             <Filters />
           </div>
 
-          {/* Посты */}
+          {/* Посты, отдельный компонент который будет рендерить группу продуктов - ProductsGroupList */}
           <div className="flex-1">
             <div className="grid gap-16">
-              <div className="grid grid-cols-4 gap-4 place-items-center">
-                <div>post 1</div>
-                <div>post 1</div>
-                <div>post 1</div>
-                <div>post 1</div>
-              </div>
-
-              <div className="grid grid-cols-4 gap-4 place-items-center">
-                <div>post 1</div>
-                <div>post 1</div>
-                <div>post 1</div>
-                <div>post 1</div>
-              </div>
+              <ProductsGroupList
+                title="Драги"
+                categoryId={1}
+                items={[{ id: 1, price: 666, name: "КокиОтСмоки" }]}
+              />
             </div>
           </div>
         </div>
