@@ -16,5 +16,10 @@ export async function POST(request: Request) {
 
   console.log(data);
 
-  return NextResponse.json({ message: "Hello from API!" });
+  return NextResponse.json({ message: "Hello from API!", data });
+}
+
+export async function GET(request: Request) {
+  const data = await prismaClient.twit.findMany();
+  return NextResponse.json({ message: "Hello from API!", data });
 }
