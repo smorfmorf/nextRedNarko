@@ -1,5 +1,4 @@
 "use client";
-
 import { Container } from "@/components/container";
 import DomeGallery from "@/components/DomeGallery";
 import { Filters } from "@/components/filters";
