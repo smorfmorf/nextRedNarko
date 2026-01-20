@@ -40,7 +40,7 @@ export const Header: React.FC<Props> = ({ className }) => {
                         Войти
                     </Button>
                     <Button className="group relatvie animate-bounce">
-                        <b>520 ₽</b>
+                        <b>15 520 ₽</b>
                         <span className="w-[1px] h-full bg-white/30 mx-2"></span>
                         <div className="flex items-center gap-1 transition group-hover:opacity-0">
                             <ShoppingCart size={16} />

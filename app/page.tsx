@@ -8,9 +8,18 @@ import { ProductsGroupList } from "@/components/products-group-list";
 import { Title } from "@/components/title";
 import { TopBar } from "@/components/topbar";
 
+import { postAction } from "@/server-actions/postAction";
+
 export default function Home() {
     return (
         <div>
+            <form action={postAction}>
+                <input type="text" name="username" placeholder="Enter username" />
+                <button type="submit" className="bg-amber-200 p-2">
+                    Submit
+                </button>
+            </form>
+
             <div style={{ width: "100%", height: "400px" }}>
                 <DomeGallery />
             </div>
