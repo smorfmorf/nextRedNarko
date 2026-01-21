@@ -37,6 +37,8 @@ export const FilterGroupCheckBox: React.FC<Props> = ({
         setSearchValue(event.target.value);
     }
 
+    console.log("update component all");
+
     return (
         <article className={className}>
             <h3 className="font-bold mb-3">{title}</h3>
