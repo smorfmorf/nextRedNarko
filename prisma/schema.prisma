@@ -8,18 +8,47 @@ datasource db {
   url      = "file:./dev.db"
 }
 
+// ДОБАВЬТЕ ЭТОТ ENUM!
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum OrderStatus {
+  PENDING
+  SUCCESS
+  CANCELLED
+}
+
+model Twit {
+  id     Int    @id @default(autoincrement())
+  title  String
+  author String
+  text   String
+}
+
 model User {
-  id       String @id @default(cuid())
+  id       Int    @id @default(autoincrement())
   fullName String
   email    String @unique
   password String
 
-  createdAt DateTime @default(now())
-  updateAt  DateTime @updatedAt
+  verified DateTime
+
+  role UserRole @default(USER)
+
+  provider   String? //через что авторизация
+  providerId String?
+
+  createdAt        DateTime          @default(now())
+  updateAt         DateTime          @updatedAt
+  cart             Cart?
+  order            Order[]
+  verificationCode VerificationCode?
 }
 
 model Category {
-  id   String @id @default(cuid())
+  id   Int    @id @default(autoincrement())
   name String @unique
 
   products Product[]
@@ -29,7 +58,7 @@ model Category {
 }
 
 model Product {
-  id String @id @default(cuid())
+  id Int @id @default(autoincrement())
 
   name     String
   imageUrl String
@@ -38,19 +67,93 @@ model Product {
   updateAt  DateTime @updatedAt
 
   category   Category @relation(fields: [categoryId], references: [id])
-  categoryId String
+  categoryId Int
 
   ingredients Ingredient[]
+  items       ProductItem[]
+}
+
+// продукт на превью
+model ProductItem {
+  id        Int     @id @default(autoincrement())
+  price     Int
+  size      Int?
+  pizzaType Int?
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
+
+  cartItems CartItem[]
 }
 
 model Ingredient {
-  id       String @id @default(cuid())
+  id       Int    @id @default(autoincrement())
   name     String
   price    Int
   imageUrl String
 
   products Product[]
+  cartItem CartItem[]
 
   createdAt DateTime @default(now())
   updateAt  DateTime @updatedAt
+}
+
+model Cart {
+  id Int @id @default(autoincrement())
+
+  totalAmount Int     @default(0)
+  userToken   String?
+
+  user   User? @relation(fields: [userId], references: [id])
+  userId Int?  @unique
+
+  items CartItem[]
+}
+
+// продукт в корзине
+model CartItem {
+  id Int @id @default(autoincrement())
+
+  quantity Int @default(1)
+
+  ingredients   Ingredient[]
+  cart          Cart?        @relation(fields: [cartId], references: [id])
+  cartId        Int?
+  productItem   ProductItem? @relation(fields: [productItemId], references: [id])
+  productItemId Int?
+}
+
+model Order {
+  id Int @id @default(autoincrement())
+
+  user   User? @relation(fields: [userId], references: [id])
+  userId Int?
+
+  userToken String?
+
+  totalAmount Int
+  status      OrderStatus
+  paymentId   String? // какой id-заказа в Юмани(доп-инфа для ручной отмены заказа в платежке)
+
+  items Json // товары заказа
+
+  fullName String
+  address  String
+  email    String
+  phone    String
+  comment  String?
+
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+}
+
+// код - потверждения при регистрации через почту
+model VerificationCode {
+  id Int @id @default(autoincrement())
+
+  code   String
+  user   User   @relation(fields: [userId], references: [id])
+  userId Int    @unique
+
+  createdAt DateTime @default(now())
 }
