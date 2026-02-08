@@ -19,7 +19,7 @@ export default function Home() {
                 </button>
             </form>
 
-            <div style={{ width: "100%", height: "400px" }}>
+            <div style={{ width: "100%", height: "450px" }}>
                 <DomeGallery />
             </div>
             <div className="px-4">
