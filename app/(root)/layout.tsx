@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Nunito } from "next/font/google";
 import "../globals.css";
 import { Header } from "@/components/header";
+import { Suspense } from "react";
 
 const nunito = Nunito({
   subsets: ["cyrillic"],
@@ -16,13 +17,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  modal,
 }: Readonly<{
   children: React.ReactNode;
+  modal: React.ReactNode;
 }>) {
   return (
     <html lang="en">
       <body className={nunito.className}>
         <div className="wrapper bg-white w-7/8 mx-auto rounded-md shadow-2xl shadow-black  mt-10">
+          {/* Тут рендерится @modal */}
+          {/* {modal} */}
           <Header />
           <main>{children}</main>
         </div>

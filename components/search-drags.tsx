@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Api } from "@/services/api-client";
 import { Product } from "@prisma/client";
+import Link from "next/link";
 import React from "react";
 import { useDebounce } from "react-use";
 
@@ -9,7 +10,6 @@ import { useDebounce } from "react-use";
 export const SearchDrags: React.FC = () => {
   const [searchQuery, setSearchQuery] = React.useState("");
   const [products, setProducts] = React.useState<Product[]>([]);
-
   const [focus, setFocus] = React.useState(false);
   const ref = React.useRef(null);
 
@@ -43,10 +43,14 @@ export const SearchDrags: React.FC = () => {
             )}
           >
             {products.map((product) => (
-              <div key={product.id} className="px-2 py-1 hover:bg-gray-100 flex items-center gap-2 cursor-pointer">
+              <Link
+                href={`/product/${product.id}`}
+                key={product.id}
+                className="px-2 py-1 hover:bg-gray-100 flex items-center gap-2 cursor-pointer"
+              >
                 <img className="w-8 h-8" src={product.imageUrl} alt="" />
                 {product.name}
-              </div>
+              </Link>
             ))}
           </div>
         )}
