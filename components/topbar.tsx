@@ -8,7 +8,7 @@ interface Props {
 
 export const TopBar: React.FC<Props> = ({ className }) => {
   return (
-    <div className="sticky top-0 backdrop-blur bg-white/20 py-5 z-10 shadow-sm">
+    <div className="sticky top-0 backdrop-blur bg-white/20 py-5 shadow-sm">
       <Container className="flex items-center justify-between">
         <Categories />
         <SortPopup />

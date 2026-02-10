@@ -1,8 +1,20 @@
 import { PrismaClient } from "@prisma/client";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 const prismaClient = new PrismaClient();
 
+export async function GET(request: NextRequest) {
+  const query = request.nextUrl.searchParams.get("query")!;
+
+  const data = await prismaClient.product.findMany({
+    where: {
+      name: {
+        contains: query,
+      },
+    },
+  });
+  return NextResponse.json(data);
+}
 // export async function POST(request: Request) {
 //   const { title, text, author } = await request.json(); // читаем body как JSON
 
@@ -18,8 +30,3 @@ const prismaClient = new PrismaClient();
 
 //   return NextResponse.json({ message: "Hello from API!", data });
 // }
-
-export async function GET(request: Request) {
-  const data = await prismaClient.user.findMany();
-  return NextResponse.json({ message: "Hello from API!", data });
-}

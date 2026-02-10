@@ -24,6 +24,7 @@ async function download() {
   await prisma.user.createMany({
     data: [
       {
+        id: 1,
         fullName: "User",
         email: "user@ya.ru",
         password: hashSync("666", 10),
@@ -35,15 +36,9 @@ async function download() {
 
   //   CATEGORIES
   const categoris = [
-    {
-      name: "Драги",
-    },
-    {
-      name: "КОКА-КОЛЫ",
-    },
-    {
-      name: "КОКИ",
-    },
+    { id: 1, name: "Драги" },
+    { id: 2, name: "КОКА-КОЛЫ" },
+    { id: 3, name: "КОКИ" },
   ];
   await prisma.category.createMany({
     data: categoris,
@@ -68,14 +63,45 @@ async function download() {
   //   PRODUCTS --------------------------------------
   const products = [
     {
+      id: 1,
       name: "Лате",
       imageUrl: "https://media.dodostatic.net/image/r:292x292/0198bf3e424371b49f0b8d7dbe320a70.avif",
+      categoryId: 1,
+    },
+    {
+      id: 2,
+      name: "Коки",
+      imageUrl: "A3.webp",
+      categoryId: 1,
+    },
+    {
+      id: 3,
+      name: "Кока-кола",
+      imageUrl: "A4.webp",
+      categoryId: 1,
+    },
+    {
+      id: 4,
+      name: "Кока-кола",
+      imageUrl: "A5.webp",
+      categoryId: 1,
+    },
+    {
+      id: 5,
+      name: "Кока-кола",
+      imageUrl: "A6.webp",
+      categoryId: 1,
+    },
+    {
+      id: 6,
+      name: "Кока-кола",
+      imageUrl: "A7.webp",
       categoryId: 1,
     },
   ];
 
   await prisma.product.createMany({
-    data: products,
+    data: [...products],
   });
 
   const nark1 = await prisma.product.create({
@@ -108,17 +134,23 @@ async function download() {
     };
   }
 
+  // продукты
   await prisma.productItem.createMany({
     data: [
       generateProductItem({ productId: nark1.id, pizzaType: 1, size: 20 }),
       generateProductItem({ productId: nark1.id, pizzaType: 1, size: 20 }),
       generateProductItem({ productId: nark1.id, pizzaType: 1, size: 20 }),
+
+      generateProductItem({ productId: 1 }),
+      generateProductItem({ productId: 2 }),
     ],
   });
 
+  // Корзина
   await prisma.cart.createMany({
     data: [
       {
+        id: 1,
         userId: 1,
         totalAmount: 0,
         userToken: "wddwadawdawd12",
@@ -126,8 +158,10 @@ async function download() {
     ],
   });
 
+  // товары в корзине  + доп ингридиенты какие хотим добвить к продукту
   await prisma.cartItem.create({
     data: {
+      id: 1,
       cartId: 1,
       productItemId: 1,
       quantity: 2,
