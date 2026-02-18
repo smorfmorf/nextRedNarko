@@ -1,4 +1,4 @@
-import { Product } from "@prisma/client";
+import { Ingredient, Product } from "@prisma/client";
 import axios from "axios";
 
 const instance = axios.create({
@@ -10,8 +10,16 @@ const search = async (query: string) => {
   return data;
 };
 
+const getAll = async (): Promise<Ingredient[]> => {
+  const { data } = await instance.get<Ingredient[]>(`/ingredients`);
+  return data;
+};
+
 export const Api = {
   products: {
     search,
+  },
+  ingredients: {
+    getAll,
   },
 };
