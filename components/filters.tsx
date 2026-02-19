@@ -7,7 +7,7 @@ import { use_Filter_Ingredients } from "@/hooks/use_Filter_Ingredients";
 import { useSet } from "react-use";
 import { useEffect, useState } from "react";
 import qs from "qs";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface Props {
   className?: string;
@@ -19,8 +19,11 @@ interface PriceRange {
 }
 export const Filters: React.FC<Props> = ({ className }) => {
   const Router = useRouter();
+  const searchParams = useSearchParams();
 
-  const { ingredients, loading, selected_Ingredients, toggle_Add_id } = use_Filter_Ingredients();
+  const { ingredients, loading, selected_Ingredients, toggle_Add_id } = use_Filter_Ingredients(
+    searchParams?.get("ingredients"),
+  );
   console.log("selected_Ingredients: ", selected_Ingredients);
   const items = ingredients.map((item) => ({ value: item.id.toString(), text: item.name }));
 

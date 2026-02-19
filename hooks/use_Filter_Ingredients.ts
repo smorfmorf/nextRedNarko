@@ -10,7 +10,7 @@ interface ReturnProps {
   toggle_Add_id: (id: string) => void;
 }
 
-export const use_Filter_Ingredients = (): ReturnProps => {
+export const use_Filter_Ingredients = (searchParams: any): ReturnProps => {
   const [items, setItems] = useState<Ingredient[]>([]);
   const [loading, setLoading] = useState(true);
   const [selected_Ingredients, { add, has, remove, toggle, reset, clear }] = useSet<string>(new Set([]));
