@@ -8,17 +8,18 @@ export interface FilterCheckBoxProps {
 
   text: string;
   value: string;
+  name?: string;
 }
 
 export const FilterCheckBox: React.FC<FilterCheckBoxProps> = (props) => {
   return (
     <div className="flex items-center gap-2">
       <Checkbox
-        id={props.value}
+        id={`checkbox-${String(props.value)}-${String(props.name)}`}
         checked={props.checked}
         onCheckedChange={props.onChange}
       />
-      <label htmlFor={props.value}>{props.text}</label>
+      <label htmlFor={`checkbox-${String(props.value)}-${String(props.name)}`}>{props.text}</label>
     </div>
   );
 };
