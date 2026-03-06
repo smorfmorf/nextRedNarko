@@ -1,159 +1,159 @@
 // schema
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+    provider = "sqlite"
+    url      = "file:./dev.db"
 }
 
 // ДОБАВЬТЕ ЭТОТ ENUM!
 enum UserRole {
-  USER
-  ADMIN
+    USER
+    ADMIN
 }
 
 enum OrderStatus {
-  PENDING
-  SUCCESS
-  CANCELLED
+    PENDING
+    SUCCESS
+    CANCELLED
 }
 
 model Twit {
-  id     Int    @id @default(autoincrement())
-  title  String
-  author String
-  text   String
+    id     Int    @id @default(autoincrement())
+    title  String
+    author String
+    text   String
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  fullName String
-  email    String @unique
-  password String
+    id       Int    @id @default(autoincrement())
+    fullName String
+    email    String @unique
+    password String
 
-  verified DateTime
+    verified DateTime
 
-  role UserRole @default(USER)
+    role UserRole @default(USER)
 
-  provider   String? //через что авторизация
-  providerId String?
+    provider   String? //через что авторизация
+    providerId String?
 
-  createdAt        DateTime          @default(now())
-  updateAt         DateTime          @updatedAt
-  cart             Cart?
-  order            Order[]
-  verificationCode VerificationCode?
+    createdAt        DateTime          @default(now())
+    updateAt         DateTime          @updatedAt
+    cart             Cart?
+    order            Order[]
+    verificationCode VerificationCode?
 }
 
 model Category {
-  id   Int    @id @default(autoincrement())
-  name String @unique
+    id   Int    @id @default(autoincrement())
+    name String @unique
 
-  products Product[]
+    products Product[]
 
-  createdAt DateTime @default(now())
-  updateAt  DateTime @updatedAt
+    createdAt DateTime @default(now())
+    updateAt  DateTime @updatedAt
 }
 
 model Product {
-  id Int @id @default(autoincrement())
+    id Int @id @default(autoincrement())
 
-  name     String
-  imageUrl String
+    name     String
+    imageUrl String
 
-  createdAt DateTime @default(now())
-  updateAt  DateTime @updatedAt
+    createdAt DateTime @default(now())
+    updateAt  DateTime @updatedAt
 
-  category   Category @relation(fields: [categoryId], references: [id])
-  categoryId Int
+    category   Category @relation(fields: [categoryId], references: [id])
+    categoryId Int
 
-  ingredients Ingredient[]
-  items       ProductItem[]
+    ingredients Ingredient[]
+    items       ProductItem[]
 }
 
 // продукт на превью
 model ProductItem {
-  id        Int     @id @default(autoincrement())
-  price     Int
-  size      Int?
-  pizzaType Int?
-  product   Product @relation(fields: [productId], references: [id])
-  productId Int
+    id        Int     @id @default(autoincrement())
+    price     Int
+    size      Int?
+    pizzaType Int?
+    product   Product @relation(fields: [productId], references: [id])
+    productId Int
 
-  cartItems CartItem[]
+    cartItems CartItem[]
 }
 
 model Ingredient {
-  id       Int    @id @default(autoincrement())
-  name     String
-  price    Int
-  imageUrl String
+    id       Int    @id @default(autoincrement())
+    name     String
+    price    Int
+    imageUrl String
 
-  products Product[]
-  cartItem CartItem[]
+    products Product[]
+    cartItem CartItem[]
 
-  createdAt DateTime @default(now())
-  updateAt  DateTime @updatedAt
+    createdAt DateTime @default(now())
+    updateAt  DateTime @updatedAt
 }
 
 model Cart {
-  id Int @id @default(autoincrement())
+    id Int @id @default(autoincrement())
 
-  totalAmount Int     @default(0)
-  userToken   String?
+    totalAmount Int     @default(0)
+    userToken   String?
 
-  user   User? @relation(fields: [userId], references: [id])
-  userId Int?  @unique
+    user   User? @relation(fields: [userId], references: [id])
+    userId Int?  @unique
 
-  items CartItem[]
+    items CartItem[]
 }
 
 // продукт в корзине
 model CartItem {
-  id Int @id @default(autoincrement())
+    id Int @id @default(autoincrement())
 
-  quantity Int @default(1)
+    quantity Int @default(1)
 
-  ingredients   Ingredient[]
-  cart          Cart?        @relation(fields: [cartId], references: [id])
-  cartId        Int?
-  productItem   ProductItem? @relation(fields: [productItemId], references: [id])
-  productItemId Int?
+    ingredients   Ingredient[]
+    cart          Cart?        @relation(fields: [cartId], references: [id])
+    cartId        Int?
+    productItem   ProductItem? @relation(fields: [productItemId], references: [id])
+    productItemId Int?
 }
 
 model Order {
-  id Int @id @default(autoincrement())
+    id Int @id @default(autoincrement())
 
-  user   User? @relation(fields: [userId], references: [id])
-  userId Int?
+    user   User? @relation(fields: [userId], references: [id])
+    userId Int?
 
-  userToken String?
+    userToken String?
 
-  totalAmount Int
-  status      OrderStatus
-  paymentId   String? // какой id-заказа в Юмани(доп-инфа для ручной отмены заказа в платежке)
+    totalAmount Int
+    status      OrderStatus
+    paymentId   String? // какой id-заказа в Юмани(доп-инфа для ручной отмены заказа в платежке)
 
-  items Json // товары заказа
+    items Json // товары заказа
 
-  fullName String
-  address  String
-  email    String
-  phone    String
-  comment  String?
+    fullName String
+    address  String
+    email    String
+    phone    String
+    comment  String?
 
-  createdAt DateTime @default(now())
-  updateAt  DateTime @updatedAt
+    createdAt DateTime @default(now())
+    updateAt  DateTime @updatedAt
 }
 
 // код - потверждения при регистрации через почту
 model VerificationCode {
-  id Int @id @default(autoincrement())
+    id Int @id @default(autoincrement())
 
-  code   String
-  user   User   @relation(fields: [userId], references: [id])
-  userId Int    @unique
+    code   String
+    user   User   @relation(fields: [userId], references: [id])
+    userId Int    @unique
 
-  createdAt DateTime @default(now())
+    createdAt DateTime @default(now())
 }

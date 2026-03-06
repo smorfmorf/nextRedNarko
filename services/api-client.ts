@@ -2,7 +2,7 @@ import { Ingredient, Product } from "@prisma/client";
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "http://localhost:3000/api",
+  baseURL: `${window.location.origin}/api`,
 });
 
 const search = async (query: string) => {
