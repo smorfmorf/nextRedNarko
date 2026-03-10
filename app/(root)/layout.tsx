@@ -27,7 +27,7 @@ export default function RootLayout({
       <body className={nunito.className}>
         <div className="wrapper bg-white w-7/8 mx-auto rounded-md shadow-2xl shadow-black  mt-10">
           {/* Тут рендерится @modal */}
-          {/* {modal} */}
+          {modal}
           <Header />
           <main>{children}</main>
         </div>
