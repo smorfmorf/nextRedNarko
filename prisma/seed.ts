@@ -241,11 +241,13 @@ async function download() {
         generateProductItem({ productId: 1, size: 1 }),
         generateProductItem({ productId: 1, size: 2 }),
         generateProductItem({ productId: 1, size: 3 }),
+
         generateProductItem({ productId: 2, size: 1 }),
         generateProductItem({ productId: 2, size: 2 }),
         // Трава
         generateProductItem({ productId: 3, size: 2 }),
         generateProductItem({ productId: 3, size: 3 }),
+
         generateProductItem({ productId: 4, size: 1 }),
         generateProductItem({ productId: 4, size: 2 }),
         // Колеса (в штуках)
