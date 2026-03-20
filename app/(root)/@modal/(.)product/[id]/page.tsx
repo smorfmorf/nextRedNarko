@@ -1,77 +1,38 @@
-import { DragsImage } from "@/components/Drags_Img";
-import { DragsVariants } from "@/components/Drags_variants";
-import { ProductModal } from "@/components/modal-Drags";
-import { Title } from "@/components/title";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { ChoseDragsForm } from "@/components/modal_and_product/Chose-DragsForm";
 import prisma from "@/prisma/prisma.client";
 import { Ingredient, Product, ProductItem } from "@prisma/client";
 import React from "react";
 // import { useRouter } from "next/navigation";
 
-export type ProductWithRelations = Product & { items: ProductItem[]; ingredients: Ingredient[] };
-
 interface PageProps {
-    params: Promise<{ id: string }>;
-    loading?: boolean;
-    onSubmit: (itemId: number, ingredients: number[]) => void;
-    className?: string;
-    imageUrl: string;
-    name: string;
+  params: Promise<{ id: string }>;
+  loading?: boolean;
+  onSubmit: (itemId: number, ingredients: number[]) => void;
+  className?: string;
+  imageUrl: string;
+  name: string;
 }
 
-const mapSize = {
-    1: "Маленькая",
-    2: "Средняя",
-    3: "Большая",
-};
-
-type SizeValue = keyof typeof mapSize;
-
-export const sizesProducts = Object.entries(mapSize).map(([value, name]) => ({
-    name: name,
-    value: value,
-    disabled: false,
-}));
-
 // async page рендерится на сервере → React получает уже готовый HTML
-// глазок (.) - следит за Link to="/product[id]"
+// глазок (.) - следит за Link to="/product/[id]"
 
 export default async function ProductModalPage({ params, loading, onSubmit, className, imageUrl, name }: PageProps) {
-    const { id } = await params; // ждём params, прежде чем использовать
+  const { id } = await params; // ждём params, прежде чем использовать
 
-    //   const [product] = await prisma.$queryRaw<
-    //     Array<{ id: number; name: string; imageUrl: string }>
-    //   >`SELECT id, name, imageUrl FROM Product WHERE id = ${2}`;
+  //   const [product] = await prisma.$queryRaw<
+  //     Array<{ id: number; name: string; imageUrl: string }>
+  //   >`SELECT id, name, imageUrl FROM Product WHERE id = ${2}`;
 
-    const product = await prisma.product.findFirst({
-        where: {
-            id: Number(id),
-        },
-        include: {
-            ingredients: true,
-            items: true,
-        },
-    });
-    console.log("product: ", product);
+  const product = await prisma.product.findFirst({
+    where: {
+      id: Number(id),
+    },
+    include: {
+      ingredients: true,
+      items: true,
+    },
+  });
+  console.log("product: ", product);
 
-    const [size, setSize] = React.useState<SizeValue>(2);
-
-    return (
-        <ProductModal className={className}>
-            <div className={cn(className, "flex")}>
-                <DragsImage imageUrl={product?.imageUrl || ""} size={3} />
-
-                <div className="w-[490px] bg-[#f7f6f5] p-7">
-                    <Title text={product?.name || ""} size="md" className="font-extrabold mb-1" />
-
-                    <DragsVariants items={sizesProducts} />
-
-                    <Button className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10">
-                        Добавить в корзину за {} ₽
-                    </Button>
-                </div>
-            </div>
-        </ProductModal>
-    );
+  return <ChoseDragsForm product={product ?? undefined} />;
 }
