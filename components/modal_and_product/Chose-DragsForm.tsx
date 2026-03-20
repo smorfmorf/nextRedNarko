@@ -23,7 +23,7 @@ export const mapSize = {
   3: "Для боссов",
 };
 
-export const mapType = {
+ const mapType = {
   1: "Доставка",
   2: "Клад",
 };
