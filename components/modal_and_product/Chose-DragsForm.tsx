@@ -17,13 +17,13 @@ interface Props {
     product?: ProductWithRelations;
 }
 
-const mapSize = {
+export const mapSize = {
     1: "Маленький пакет",
     2: "Средний стаф",
     3: "Для боссов",
 };
 
-const mapType = {
+export const mapType = {
     1: "Доставка",
     2: "Клад",
 };
@@ -46,9 +46,9 @@ export const typesProducts = Object.entries(mapType).map(([value, name]) => ({
 export const ChoseDragsForm: React.FC<Props> = ({ className, product }) => {
     const [size, setSize] = React.useState<SizeValue>(1);
     const [type, setType] = React.useState<TypeValue>(1);
-
     const [selectedIngredients, { toggle }] = useSet(new Set<number>([]));
 
+    // калькуляция
     const $findDrags = product?.items.find((item) => item.size === size && item.pizzaType === type)?.price || 0;
     const $totalIngredients = product?.ingredients
         .filter((Ingredient) => selectedIngredients.has(Ingredient.id))
@@ -57,6 +57,7 @@ export const ChoseDragsForm: React.FC<Props> = ({ className, product }) => {
     const totalPrice = $findDrags + $totalIngredients!;
     console.log("findDrags: GET", $findDrags);
 
+    //доступные размеры
     const filteredDragsByType = product?.items.filter((item) => item.pizzaType === type);
     const actualDragsSizes = sizesProducts.map((item) => {
         return {
