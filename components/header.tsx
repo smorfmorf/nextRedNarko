@@ -7,6 +7,7 @@ import { ArrowRight, ShoppingCart, User } from "lucide-react";
 import Lightning from "./Lightning";
 import React from "react";
 import { SearchDrags } from "./search-drags";
+import { CartButton } from "./Cart-Button";
 
 interface Props {
     className?: string;
@@ -44,15 +45,7 @@ export const Header: React.FC<Props> = ({ className }) => {
                         <User size={16} />
                         Войти
                     </Button>
-                    <Button className="group relatvie animate-bounce">
-                        <b>627 520 ₽</b>
-                        <span className="w-[1px] h-full bg-white/30 mx-2"></span>
-                        <div className="flex items-center gap-1 transition group-hover:opacity-0">
-                            <ShoppingCart size={16} />
-                            <b>3</b>
-                        </div>
-                        <ArrowRight className="absolute right-5 transition duration-300 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0" />
-                    </Button>
+                    <CartButton />
                 </div>
             </Container>
         </header>

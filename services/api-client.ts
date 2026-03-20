@@ -1,8 +1,17 @@
 import { Ingredient, Product } from "@prisma/client";
 import axios from "axios";
+const getBaseURL = () => {
+  if (typeof window !== "undefined") {
+    // браузер
+    return `${window.location.origin}/api`;
+  }
+
+  // сервер (SSR)
+  return `${process.env.NEXT_PUBLIC_SITE_URL}/api`;
+};
 
 const instance = axios.create({
-  baseURL: `${window.location.origin}/api`,
+  baseURL: getBaseURL(),
 });
 
 const search = async (query: string) => {
