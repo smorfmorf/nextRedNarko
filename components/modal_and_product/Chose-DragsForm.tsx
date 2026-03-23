@@ -103,7 +103,7 @@ export const ChoseDragsForm: React.FC<Props> = ({ className, product }) => {
                         <div className="bg-gray-100 p-1 rounded-md h-[420px] overflow-auto scrollbar-thin">
                             <div className="grid grid-cols-3 gap-3">
                                 {product?.ingredients.map((ingredient) => (
-                                    <Ingredient
+                                    <Ingredient_CardMini
                                         key={ingredient.id}
                                         name={ingredient.name}
                                         price={ingredient.price}
@@ -116,26 +116,10 @@ export const ChoseDragsForm: React.FC<Props> = ({ className, product }) => {
                         </div>
                     </div>
 
-<<<<<<< HEAD
-            <div className="bg-gray-100 p-1 rounded-md h-[420px] overflow-auto scrollbar-thin">
-              <div className="grid grid-cols-3 gap-3">
-                {product?.ingredients.map((ingredient) => (
-                  <Ingredient_CardMini
-                    key={ingredient.id}
-                    name={ingredient.name}
-                    price={ingredient.price}
-                    imageUrl={ingredient.imageUrl}
-                    active={selectedIngredients.has(ingredient.id)}
-                    onClick={() => toggle(ingredient.id)}
-                  />
-                ))}
-              </div>
-=======
                     <Button onClick={handleAddToCart} className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10">
                         Добавить в корзину за {totalPrice} ₽
                     </Button>
                 </div>
->>>>>>> 46dda5e95f24638078aabc451f6201f23e6f9a14
             </div>
         </ProductModal>
     );

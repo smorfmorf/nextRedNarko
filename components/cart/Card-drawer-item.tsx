@@ -9,73 +9,73 @@ import { CartItemInfo } from "./Cart-item-info";
 import { CountButton } from "./Count-button";
 
 interface PropsImg {
-  src: string;
-  className?: string;
+    src: string;
+    className?: string;
 }
 
 export const CartItemDetailsImage: React.FC<PropsImg> = ({ src, className }) => {
-  return <img className={cn("w-[60px] h-[60px]", className)} src={src} />;
+    return <img className={cn("w-[60px] h-[60px]", className)} src={src} />;
 };
 
 interface PropsPrice {
-  value: number;
-  className?: string;
+    value: number;
+    className?: string;
 }
 
 export const CartItemDetailsPrice: React.FC<PropsPrice> = ({ value, className }) => {
-  return <h2 className={cn("font-bold", className)}>{value} ₽</h2>;
+    return <h2 className={cn("font-bold", className)}>{value} ₽</h2>;
 };
 
 interface Props {
-  className?: string;
-  name: string;
-  details: string;
-  type: 1 | 2;
-  price: number;
-  count: number;
+    className?: string;
+    name: string;
+    details: string;
+    type: 1 | 2;
+    price: number;
+    count: number;
 }
 export const CartDrawerItem: React.FC<Props> = ({ className, details, name, type, price, count }) => {
-  return (
-    <div className={cn("flex bg-white p-5 gap-6", className)}>
-      <CartItemDetailsImage src="/A2.webp" />
+    return (
+        <div className={cn("flex bg-white p-5 gap-6", className)}>
+            <CartItemDetailsImage src="/A2.webp" />
 
-      <div className="flex-1">
-        <CartItemInfo name={name} details={details} />
+            <div className="flex-1">
+                <CartItemInfo name={name} details={details} />
 
-        <hr className="my-2" />
+                <hr className="my-2" />
 
-        <div className="flex items-center justify-between">
-          <CountButton onClick={(type) => console.log("type", type)} value={count} />
+                <div className="flex items-center justify-between">
+                    <CountButton onClick={(type) => console.log("type", type)} value={count} />
 
-          <div className="flex items-center gap-2">
-            <CartItemDetailsPrice value={700} />
-            <Trash2Icon size={16} className="text-gray-400 curor-pointer hover:text-gray-600" />
-          </div>
+                    <div className="flex items-center gap-2">
+                        <CartItemDetailsPrice value={price} />
+                        <Trash2Icon size={16} className="text-gray-400 curor-pointer hover:text-gray-600" />
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export function getCartItemsDetails({
-  size,
-  type,
-  ingredients,
+    size,
+    type,
+    ingredients,
 }: {
-  size: 1 | 2 | 3;
-  type: 1 | 2;
-  ingredients: Ingredient[];
+    size: 1 | 2 | 3;
+    type: 1 | 2;
+    ingredients: Ingredient[];
 }) {
-  const detailsArr = [];
+    const detailsArr = [];
 
-  if (size) {
-    const typeName = mapType[type];
-    detailsArr.push(`${typeName} ${size} см`);
-  }
+    if (size) {
+        const typeName = mapType[type];
+        detailsArr.push(`${typeName} ${size} грамм`);
+    }
 
-  if (ingredients) {
-    detailsArr.push(...ingredients.map((item) => item.name));
-  }
+    if (ingredients) {
+        detailsArr.push(...ingredients.map((item) => item.name));
+    }
 
-  return detailsArr.join(", ");
+    return detailsArr.join(", ");
 }
