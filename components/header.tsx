@@ -7,7 +7,11 @@ import { ArrowRight, ShoppingCart, User } from "lucide-react";
 import Lightning from "./Lightning";
 import React from "react";
 import { SearchDrags } from "./search-drags";
+<<<<<<< HEAD
+import { CartButton } from "./Cart-Button";
+=======
 import { CartButton } from "./cart/Cart-Button-header";
+>>>>>>> 130209281a1c2705101702959d7677f54ff98847
 
 interface Props {
   className?: string;
@@ -32,6 +36,19 @@ export const Header: React.FC<Props> = ({ className }) => {
           <SearchDrags />
         </div>
 
+<<<<<<< HEAD
+                {/* правая часть */}
+                <div className="flex items-center gap-4">
+                    <Button variant={"outline"} className="flex items-center gap-1">
+                        <User size={16} />
+                        Войти
+                    </Button>
+                    <CartButton />
+                </div>
+            </Container>
+        </header>
+    );
+=======
         {/* правая часть */}
         <div className="flex items-center gap-4">
           <Button variant={"outline"} className="flex items-center gap-1">
@@ -43,4 +60,5 @@ export const Header: React.FC<Props> = ({ className }) => {
       </Container>
     </header>
   );
+>>>>>>> 130209281a1c2705101702959d7677f54ff98847
 };

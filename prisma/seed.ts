@@ -70,7 +70,11 @@ async function download() {
   const ingredients = [
     {
       name: "Глюкоза",
+<<<<<<< HEAD
+      price: 1430,
+=======
       price: 50,
+>>>>>>> 130209281a1c2705101702959d7677f54ff98847
       imageUrl: "I9.webp",
     },
     {
@@ -80,7 +84,11 @@ async function download() {
     },
     {
       name: "микродоты",
+<<<<<<< HEAD
+      price: 1400,
+=======
       price: 300,
+>>>>>>> 130209281a1c2705101702959d7677f54ff98847
       imageUrl: "I10.webp",
     },
     {
@@ -227,7 +235,12 @@ async function download() {
       productId,
       size,
       pizzaType,
+<<<<<<< HEAD
+      // price: size ? prices[size as keyof typeof prices] : 1000,
+      price: Math.floor(Math.random() * 4000),
+=======
       price: size ? prices[size as keyof typeof prices] : 1000,
+>>>>>>> 130209281a1c2705101702959d7677f54ff98847
     };
   }
 
@@ -256,7 +269,14 @@ async function download() {
     generateProductItem({ productId: premix1.id, size: 2, pizzaType: 2 }),
 
     generateProductItem({ productId: premix2.id, size: 1, pizzaType: 1 }),
+<<<<<<< HEAD
+    generateProductItem({ productId: premix2.id, size: 1, pizzaType: 2 }),
+    generateProductItem({ productId: premix2.id, size: 2, pizzaType: 2 }),
     generateProductItem({ productId: premix2.id, size: 2, pizzaType: 1 }),
+    generateProductItem({ productId: premix2.id, size: 3, pizzaType: 1 }),
+=======
+    generateProductItem({ productId: premix2.id, size: 2, pizzaType: 1 }),
+>>>>>>> 130209281a1c2705101702959d7677f54ff98847
   ];
 
   await prisma.productItem.createMany({ data: productItemsData });

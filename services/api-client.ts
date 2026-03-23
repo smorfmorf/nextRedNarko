@@ -1,9 +1,23 @@
 import { CartDTO, CreateCartItemValues } from "@/components/store/cart-DTO";
 import { Ingredient, Product } from "@prisma/client";
 import axios from "axios";
+const getBaseURL = () => {
+  if (typeof window !== "undefined") {
+    // браузер
+    return `${window.location.origin}/api`;
+  }
 
+  // сервер (SSR)
+  return `${process.env.NEXT_PUBLIC_SITE_URL}/api`;
+};
+
+<<<<<<< HEAD
 const axiosInstance = axios.create({
   baseURL: `${window.location.origin}/api`,
+=======
+const instance = axios.create({
+  baseURL: getBaseURL(),
+>>>>>>> 46dda5e95f24638078aabc451f6201f23e6f9a14
 });
 
 const search = async (query: string) => {
