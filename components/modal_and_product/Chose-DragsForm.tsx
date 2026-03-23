@@ -6,7 +6,7 @@ import { Title } from "../title";
 import { cn } from "@/lib/utils";
 import { DragsVariants } from "./Drags_variants";
 import { Button } from "../ui/button";
-import { Ingredient } from "./Ingredient";
+import { Ingredient_CardMini } from "./Ingredient-Cardmini";
 import { useSet } from "react-use";
 import { Ingredient as IngredientType, Product, ProductItem } from "@prisma/client";
 
@@ -95,7 +95,7 @@ export const ChoseDragsForm: React.FC<Props> = ({ className, product }) => {
             <div className="bg-gray-100 p-1 rounded-md h-[420px] overflow-auto scrollbar-thin">
               <div className="grid grid-cols-3 gap-3">
                 {product?.ingredients.map((ingredient) => (
-                  <Ingredient
+                  <Ingredient_CardMini
                     key={ingredient.id}
                     name={ingredient.name}
                     price={ingredient.price}

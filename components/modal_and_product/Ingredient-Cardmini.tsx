@@ -10,7 +10,7 @@ interface Props {
   onClick?: () => void;
 }
 
-export const Ingredient: React.FC<Props> = ({ className, active, imageUrl, name, price, onClick }) => {
+export const Ingredient_CardMini: React.FC<Props> = ({ className, active, imageUrl, name, price, onClick }) => {
   return (
     <div
       className={cn(
