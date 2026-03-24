@@ -183,7 +183,7 @@ async function download() {
 
   await prisma.product.createMany({ data: products });
 
-  //! Создаем продукты с ингредиентами (уже готовые смеси)
+  //! Создаем продукты с ингредиентами
   const premix1 = await prisma.product.create({
     data: {
       name: "Премикс 'Бодрое утро' (амф + кофеин)",

@@ -15,7 +15,6 @@ export interface CreateCartItemValues {
   productItemId: number;
   ingredients?: number[];
 }
-<<<<<<< HEAD
 
 //! Функции
 export type CartStateItem = {
@@ -63,5 +62,3 @@ export const getCartDetails = (data: CartDTO): ReturnProps => {
     totalAmount: data.totalAmount,
   };
 };
-=======
->>>>>>> c3ee833671243d51d367107bea97d5563bc6118f
