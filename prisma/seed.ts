@@ -70,11 +70,7 @@ async function download() {
   const ingredients = [
     {
       name: "Глюкоза",
-<<<<<<< HEAD
       price: 1430,
-=======
-      price: 50,
->>>>>>> 130209281a1c2705101702959d7677f54ff98847
       imageUrl: "I9.webp",
     },
     {
@@ -84,11 +80,7 @@ async function download() {
     },
     {
       name: "микродоты",
-<<<<<<< HEAD
       price: 1400,
-=======
-      price: 300,
->>>>>>> 130209281a1c2705101702959d7677f54ff98847
       imageUrl: "I10.webp",
     },
     {
@@ -191,7 +183,7 @@ async function download() {
 
   await prisma.product.createMany({ data: products });
 
-  // Создаем продукты с ингредиентами (уже готовые смеси)
+  //! Создаем продукты с ингредиентами (уже готовые смеси)
   const premix1 = await prisma.product.create({
     data: {
       name: "Премикс 'Бодрое утро' (амф + кофеин)",
@@ -235,12 +227,8 @@ async function download() {
       productId,
       size,
       pizzaType,
-<<<<<<< HEAD
       // price: size ? prices[size as keyof typeof prices] : 1000,
       price: Math.floor(Math.random() * 4000),
-=======
-      price: size ? prices[size as keyof typeof prices] : 1000,
->>>>>>> 130209281a1c2705101702959d7677f54ff98847
     };
   }
 
@@ -264,19 +252,32 @@ async function download() {
 
     { productId: 6, price: 2000, size: 1, pizzaType: 1 }, // 1 табла
     { productId: 6, price: 5500, size: 3, pizzaType: 2 }, // 3 таблы
+
+    { productId: 7, price: 2500, size: 2, pizzaType: 2 },
+    { productId: 7, price: 3300, size: 3, pizzaType: 2 },
+
+    { productId: 8, price: 1500, size: 1, pizzaType: 1 },
+    { productId: 8, price: 2500, size: 2, pizzaType: 2 },
+    { productId: 8, price: 4500, size: 3, pizzaType: 2 },
+
+    { productId: 9, price: 2000, size: 1, pizzaType: 1 },
+    { productId: 9, price: 3000, size: 2, pizzaType: 2 },
+    { productId: 9, price: 5000, size: 3, pizzaType: 2 },
+
+    { productId: 10, price: 2500, size: 2, pizzaType: 2 },
+    { productId: 10, price: 3300, size: 3, pizzaType: 2 },
+
     // Премиксы
     generateProductItem({ productId: premix1.id, size: 1, pizzaType: 1 }),
     generateProductItem({ productId: premix1.id, size: 2, pizzaType: 2 }),
 
     generateProductItem({ productId: premix2.id, size: 1, pizzaType: 1 }),
-<<<<<<< HEAD
     generateProductItem({ productId: premix2.id, size: 1, pizzaType: 2 }),
+
     generateProductItem({ productId: premix2.id, size: 2, pizzaType: 2 }),
     generateProductItem({ productId: premix2.id, size: 2, pizzaType: 1 }),
+
     generateProductItem({ productId: premix2.id, size: 3, pizzaType: 1 }),
-=======
-    generateProductItem({ productId: premix2.id, size: 2, pizzaType: 1 }),
->>>>>>> 130209281a1c2705101702959d7677f54ff98847
   ];
 
   await prisma.productItem.createMany({ data: productItemsData });
@@ -288,13 +289,13 @@ async function download() {
         id: 1,
         userId: 1,
         totalAmount: 6500,
-        userToken: "baryga_token_123",
+        token: "baryga_token_123",
       },
       {
         id: 2,
         userId: 2,
         totalAmount: 0,
-        userToken: "kuryer_token_456",
+        token: "kuryer_token_456",
       },
     ],
   });

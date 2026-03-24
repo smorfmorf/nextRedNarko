@@ -1,6 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { useCategoryStore } from "./store/store";
+import { useCategoryStore } from "../store/store";
 import { Category } from "@prisma/client";
 
 interface Props {

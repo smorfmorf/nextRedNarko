@@ -1,52 +1,6 @@
 import { create } from "zustand";
-import { Cart, CartItem, Ingredient, Product, ProductItem } from "@prisma/client";
-import { CartDTO, CartItemDTO, CreateCartItemValues } from "./cart-DTO";
+import { CartDTO, CartItemDTO, CartStateItem, CreateCartItemValues, getCartDetails } from "./cart-DTO";
 import { Api } from "@/services/api-client";
-
-export type CartStateItem = {
-  id: number;
-  quantity: number;
-  name: string;
-  imageUrl: string;
-  price: number;
-  disabled?: boolean;
-  Drag$Size?: number | null;
-  Drag$Type?: number | null;
-  ingredients: Array<{ name: string; price: number }>;
-};
-
-interface ReturnProps {
-  items: CartStateItem[];
-  totalAmount: number;
-}
-
-export const calcCartItemTotalPrice = (item: CartItemDTO): number => {
-  const ingredientsPrice = item.ingredients.reduce((acc, ingredient) => acc + ingredient.price, 0);
-
-  return (ingredientsPrice + item.productItem.price) * item.quantity;
-};
-
-export const getCartDetails = (data: CartDTO): ReturnProps => {
-  const items = data.items.map((item) => ({
-    id: item.id,
-    quantity: item.quantity,
-    name: item.productItem.product.name,
-    imageUrl: item.productItem.product.imageUrl,
-    price: calcCartItemTotalPrice(item),
-    Drag$Size: item.productItem.size,
-    Drag$Type: item.productItem.pizzaType,
-    disabled: false,
-    ingredients: item.ingredients.map((ingredient) => ({
-      name: ingredient.name,
-      price: ingredient.price,
-    })),
-  })) as CartStateItem[];
-
-  return {
-    items,
-    totalAmount: data.totalAmount,
-  };
-};
 
 export interface CartState {
   loading: boolean;
@@ -90,6 +44,7 @@ export const useCartStore = create<CartState>((set, get) => ({
     try {
       set({ loading: true, error: false });
       const data = await Api.cart.updateItemQuantity(id, quantity);
+      console.log("data22: ", data);
       set(getCartDetails(data));
     } catch (error) {
       console.error(error);
