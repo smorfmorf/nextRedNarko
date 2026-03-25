@@ -49,14 +49,19 @@ export const ChoseDragsForm: React.FC<Props> = ({ className, product }) => {
   const [type, setType] = React.useState<TypeValue>(1);
   const [selectedIngredients, { toggle }] = useSet(new Set<number>([]));
 
+  // store
+  const addCartItem = useCartStore((state) => state.addCartItem);
+
   // калькуляция
-  const $findDrags = product?.items.find((item) => item.size === size && item.pizzaType === type)?.price || 0;
+  const $findDrags = product?.items.find((item) => item.size === size && item.pizzaType === type);
+  const $findDragsPrice = $findDrags?.price || 0;
+
   const $totalIngredients = product?.ingredients
     .filter((Ingredient) => selectedIngredients.has(Ingredient.id))
     .reduce((acc, item) => acc + item.price, 0);
 
-  const totalPrice = $findDrags + $totalIngredients!;
-  console.log("findDrags: GET", $findDrags);
+  const totalPrice = $findDragsPrice + $totalIngredients!;
+  console.log("findDrags: GET", $findDragsPrice);
 
   //доступные размеры
   const filteredDragsByType = product?.items.filter((item) => item.pizzaType === type);
@@ -78,6 +83,12 @@ export const ChoseDragsForm: React.FC<Props> = ({ className, product }) => {
   }, [type]);
 
   function handleAddToCart() {
+    if ($findDrags) {
+      addCartItem({
+        productItemId: $findDrags.id,
+        ingredients: Array.from(selectedIngredients),
+      });
+    }
     console.log({ size, type, selectedIngredients });
   }
 
@@ -91,6 +102,7 @@ export const ChoseDragsForm: React.FC<Props> = ({ className, product }) => {
 
           <div className="grid gap-2">
             <DragsVariants items={actualDragsSizes} value={size} onClick={(value) => setSize(value as SizeValue)} />
+            <hr />
             <DragsVariants items={typesProducts} value={type} onClick={(value) => setType(value as TypeValue)} />
 
             <div className="bg-gray-100 p-1 rounded-md h-[420px] overflow-auto scrollbar-thin">
