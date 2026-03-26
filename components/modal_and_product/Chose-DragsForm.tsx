@@ -10,6 +10,7 @@ import { Ingredient_CardMini } from "./Ingredient-Cardmini";
 import { useSet } from "react-use";
 import { Ingredient as IngredientType, Product, ProductItem } from "@prisma/client";
 import { useCartStore } from "@/store/cart";
+import toast from "react-hot-toast";
 
 export type ProductWithRelations = Product & { items: ProductItem[]; ingredients: IngredientType[] };
 
@@ -82,12 +83,19 @@ export const ChoseDragsForm: React.FC<Props> = ({ className, product }) => {
     }
   }, [type]);
 
-  function handleAddToCart() {
-    if ($findDrags) {
-      addCartItem({
-        productItemId: $findDrags.id,
-        ingredients: Array.from(selectedIngredients),
-      });
+  async function handleAddToCart() {
+    try {
+      if ($findDrags) {
+        await addCartItem({
+          productItemId: $findDrags.id,
+          ingredients: Array.from(selectedIngredients),
+        });
+
+        toast.success("Товар добавлен в корзину");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Произошла ошибка при добавлении товара в корзину");
     }
     console.log({ size, type, selectedIngredients });
   }
