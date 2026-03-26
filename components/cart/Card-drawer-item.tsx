@@ -6,65 +6,69 @@ import { CartItemInfo } from "./Cart-item-info";
 import { CountButton } from "./Count-button";
 
 export function getCartItemsDetails({
-  ingredients,
-  size,
-  type,
+    ingredients,
+    size,
+    type,
 }: {
-  size: 1 | 2 | 3;
-  type: 1 | 2;
-  ingredients: Ingredient[];
+    size: 1 | 2 | 3;
+    type: 1 | 2;
+    ingredients: Ingredient[];
 }) {
-  const detailsArr = [];
+    const detailsArr = [];
 
-  if (size) {
-    const typeName = mapType[type];
-    detailsArr.push(`${typeName} ${size}г) `);
-  }
+    if (size) {
+        const typeName = mapType[type];
+        detailsArr.push(`${typeName} ${size}г `);
+    }
 
-  if (ingredients) {
-    detailsArr.push(...ingredients.map((item) => item.name));
-  }
+    if (ingredients) {
+        detailsArr.push(...ingredients.map((item) => item.name));
+    }
 
-  return detailsArr.join(", ");
+    return detailsArr.join(", ");
 }
 
 interface Props {
-  className?: string;
-  name: string;
-  details: string;
-  price: number;
-  quantity: number;
-  imageUrl: string;
-  onClickCountButton?: (type: "plus" | "minus") => void;
-  onClickRemove?: () => void;
+    className?: string;
+    name: string;
+    details: string;
+    price: number;
+    quantity: number;
+    imageUrl: string;
+    onClickCountButton?: (type: "plus" | "minus") => void;
+    onClickRemove?: () => void;
 }
 export const CartDrawerItem: React.FC<Props> = ({
-  imageUrl,
-  className,
-  details,
-  name,
-  price,
-  quantity,
-  onClickCountButton,
-  onClickRemove,
+    imageUrl,
+    className,
+    details,
+    name,
+    price,
+    quantity,
+    onClickCountButton,
+    onClickRemove,
 }) => {
-  return (
-    <div className={cn("flex bg-white p-5 gap-6", className)}>
-      <img className={cn("w-[60px] h-[60px]", className)} src={imageUrl} />
-      <div className="flex-1">
-        <CartItemInfo name={name} details={details} />
+    return (
+        <div className={cn("flex bg-white p-5 gap-6", className)}>
+            <img className={cn("w-[60px] h-[60px]", className)} src={imageUrl} />
+            <div className="flex-1">
+                <CartItemInfo name={name} details={details} />
 
-        <hr className="my-2" />
+                <hr className="my-2" />
 
-        <div className="flex items-center justify-between">
-          <CountButton onClick={(type) => onClickCountButton?.(type)} value={quantity} />
+                <div className="flex items-center justify-between">
+                    <CountButton onClick={(type) => onClickCountButton?.(type)} value={quantity} />
 
-          <div className="flex items-center gap-2">
-            <h2 className={cn("font-bold", className)}>{price} ₽</h2>
-            <Trash2Icon onClick={onClickRemove} size={16} className="text-gray-400 curor-pointer hover:text-gray-600" />
-          </div>
+                    <div className="flex items-center gap-2">
+                        <h2 className={cn("font-bold", className)}>{price} ₽</h2>
+                        <Trash2Icon
+                            onClick={onClickRemove}
+                            size={16}
+                            className="text-gray-400 curor-pointer hover:text-gray-600"
+                        />
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };

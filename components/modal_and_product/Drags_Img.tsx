@@ -19,8 +19,8 @@ export const DragsImage: React.FC<Props> = ({ className, imageUrl, size }) => {
                 })}
             />
 
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 border-dashed border-2 rounded-full border-gray-400 w-[450px] h-[450px]" />
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 border-dotted border-2 rounded-full border-gray-400 w-[370px] h-[370px]" />
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 border-dashed border-2 rounded-lg border-gray-400 w-[450px] h-[450px]" />
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 border-dotted border-2 rounded-lg border-gray-400 w-[370px] h-[370px]" />
         </div>
     );
 };
