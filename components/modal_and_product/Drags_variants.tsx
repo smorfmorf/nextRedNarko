@@ -16,7 +16,9 @@ interface Props {
   className?: string;
 }
 
+//! Варианты размеров
 export const DragsVariants: React.FC<Props> = ({ items, onClick, className, value }) => {
+  console.log("items: ", items);
   return (
     <div className={cn(className, "flex gap-1 justify-between bg-[#F3F3F7] rounded-3xl p-1 select-none")}>
       {items.map((item) => (

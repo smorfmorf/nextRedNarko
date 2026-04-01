@@ -49,6 +49,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
       return NextResponse.json({ error: "Cart token not found" });
     }
 
+
     const cartItem = await prisma.cartItem.findFirst({
       where: {
         id: numericId,
@@ -58,6 +59,8 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
     if (!cartItem) {
       return NextResponse.json({ error: "Cart item not found" });
     }
+
+
 
     await prisma.cartItem.delete({
       where: {

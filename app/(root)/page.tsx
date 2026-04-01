@@ -8,17 +8,62 @@ import { TopBar } from "@/components/topbar";
 import { prisma } from "@/prisma/prisma.client";
 import { postAction } from "@/server-actions/postAction";
 
-export default async function Home() {
+export default async function Home({
+    searchParams,
+}: {
+    searchParams?: {
+        priceFrom?: string;
+        priceTo?: string;
+        ingredients?: string;
+    };
+}) {
+    const ingredientsIdArr = searchParams!.ingredients?.split(",").map(Number);
+    const minPrice = Number(searchParams!.priceFrom) || 0;
+    const maxPrice = Number(searchParams!.priceTo) || 10_000;
+
     const categories = await prisma.category.findMany({
         include: {
+            // добавляем инфу о products
             products: {
+                where: {
+                    // фильтрация по категории
+                    ingredients: ingredientsIdArr
+                        ? {
+                              some: {
+                                  id: {
+                                      in: ingredientsIdArr,
+                                  },
+                              },
+                          }
+                        : undefined,
+                    // фильтрация по цене товаров (хотя бы 1)
+                    items: {
+                        some: {
+                            price: {
+                                gte: minPrice, // >=
+                                lte: maxPrice, // <=
+                            },
+                        },
+                    },
+                },
+                // добавляем инфу о items(productItem)
                 include: {
                     ingredients: true,
-                    items: true,
+                    items: {
+                        orderBy: { price: "asc" },
+                        // фильтруем по цене, чтобы пропадали ненужные
+                        where: {
+                            price: {
+                                gte: minPrice,
+                                lte: maxPrice,
+                            },
+                        },
+                    },
                 },
             },
         },
     });
+    console.log("categories: ", categories);
 
     return (
         <div>

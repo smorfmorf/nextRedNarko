@@ -42,8 +42,6 @@ export const SearchDrags: React.FC = () => {
                             focus && "opacity-100 top-12 visible",
                         )}>
                         {products.map((product) => {
-                            console.log("product: ", product);
-
                             return (
                                 <Link
                                     href={`/product/${product.id}`}

@@ -42,10 +42,17 @@ export const removeCartItem = async (id: number): Promise<CartDTO> => {
   return data;
 };
 
+export const clearCart = async (): Promise<CartDTO> => {
+  const { data } = await axiosInstance.delete<CartDTO>("/cart");
+  return data;
+};
+
 export const addCartItem = async (values: CreateCartItemValues): Promise<CartDTO> => {
   const { data } = await axiosInstance.post<CartDTO>("/cart", values);
   return data;
 };
+
+
 
 export const Api = {
   products: {
@@ -60,5 +67,7 @@ export const Api = {
     updateItemQuantity,
     removeCartItem,
     addCartItem,
+
+    clearCart
   },
 };

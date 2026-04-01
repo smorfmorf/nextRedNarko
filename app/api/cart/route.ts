@@ -112,3 +112,24 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Failed to create cart" });
   }
 }
+
+
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const token = req.cookies.get("cartToken")?.value;
+
+    if (!token) {
+      return NextResponse.json({ error: "Cart token not found" });
+    }
+
+    await prisma.cartItem.deleteMany();
+    const updatedUserCart = await updateCartTotalAmount(token);
+
+    return NextResponse.json(updatedUserCart);
+  }
+  catch (error) {
+    console.log("[CART_DELETE] Server error", error);
+    return NextResponse.json({ message: "Не удалось удалить корзину" }, { status: 500 });
+  }
+}

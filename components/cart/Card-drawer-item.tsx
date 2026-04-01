@@ -18,7 +18,7 @@ export function getCartItemsDetails({
 
     if (size) {
         const typeName = mapType[type];
-        detailsArr.push(`${typeName} ${size}г `);
+        detailsArr.push(`${typeName} ${size}-грамм `);
     }
 
     if (ingredients) {
