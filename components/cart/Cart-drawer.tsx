@@ -48,11 +48,9 @@ export const CartDrawer: React.FC<Props> = ({ className, children }) => {
     //         },
     //     },
     // );
-
     // console.log("data: ", data);
     // const url = data.invoice_url;
-    clearCart();
-
+    // clearCart();
     // setTimeout(() => {
     //     if (url) {
     //         window.location.href = url;

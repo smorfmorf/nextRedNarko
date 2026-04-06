@@ -71,7 +71,7 @@ export default function CheckoutPage() {
           <WhiteBlock className="p-6 sticky top-4">
             <div className="grid gap-1">
               <span className="text-xl">Итого: </span>
-              <span className="text-[34px] font-extrabold">3360 ₽</span>
+              <span className="text-[34px] font-extrabold">{totalAmount} ₽</span>
             </div>
 
             <CheckoutItemDetails
