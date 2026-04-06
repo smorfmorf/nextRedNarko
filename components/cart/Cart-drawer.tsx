@@ -13,10 +13,8 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { CartDrawerItem, getCartItemsDetails } from "./Card-drawer-item";
-import { useCartStore } from "@/store/cart";
-import { useEffect } from "react";
 import { Ingredient } from "@prisma/client";
-import axios from "axios";
+import { useCard } from "@/hooks/use-card";
 
 interface Props {
   className?: string;
@@ -24,16 +22,12 @@ interface Props {
 }
 
 export const CartDrawer: React.FC<Props> = ({ className, children }) => {
-  const { totalAmount, updateItemQuantity, items, removeCartItem, fetchCartItems, clearCart } = useCartStore();
+  const { totalAmount, updateItemQuantity, items, removeCartItem, clearCart } = useCard();
 
   const onClickCountButton = (id: number, quantity: number, type: "plus" | "minus") => {
     const newQuantity = type === "plus" ? quantity + 1 : quantity - 1;
     updateItemQuantity(id, newQuantity);
   };
-
-  useEffect(() => {
-    fetchCartItems();
-  }, []);
 
   async function handleSubmit() {
     // const { data } = await axios.post(
