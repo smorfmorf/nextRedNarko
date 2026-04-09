@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useCard } from "@/hooks/use-card";
 import { Ingredient } from "@prisma/client";
-import { ArrowRight, Package, Percent, Truck } from "lucide-react";
+import { Package, Percent, Truck } from "lucide-react";
 
 export default function CheckoutPage() {
   const { totalAmount, updateItemQuantity, items, removeCartItem, clearCart } = useCard();
