@@ -3,6 +3,7 @@ import prisma from "@/prisma/prisma.client";
 import { CreateCartItemValues } from "@/store/cart-DTO";
 import { NextRequest, NextResponse } from "next/server";
 
+
 export async function GET(req: NextRequest) {
   try {
     const userId = 2;
@@ -37,25 +38,27 @@ export async function GET(req: NextRequest) {
   }
 }
 
-export const findOrCreateCart = async (token: string) => {
-  let userCart = await prisma.cart.findFirst({
-    where: {
-      token,
-    },
-  });
+export async function POST(req: NextRequest) {
 
-  if (!userCart) {
-    userCart = await prisma.cart.create({
-      data: {
+  async function findOrCreateCart(token: string) {
+    let userCart = await prisma.cart.findFirst({
+      where: {
         token,
       },
     });
-  }
 
-  return userCart;
-};
+    if (!userCart) {
+      userCart = await prisma.cart.create({
+        data: {
+          token,
+        },
+      });
+    }
 
-export async function POST(req: NextRequest) {
+    return userCart;
+  };
+
+
   try {
     let token = req.cookies.get("cartToken")?.value;
 
@@ -112,8 +115,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Failed to create cart" });
   }
 }
-
-
 
 export async function DELETE(req: NextRequest) {
   try {
