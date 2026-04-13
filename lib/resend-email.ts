@@ -1,10 +1,19 @@
-import { Resend } from 'resend';
+import { Resend } from "resend";
 
-const resend = new Resend('re_ZQUTvqb6_LxL9oTDdQS7E5C6UwVapNxat');
+export const sendEmail = async (subject: string, template: React.ReactNode) => {
+  const resend = new Resend("re_BJwHVKhK_JxfpDGHhy9aTu3EJYuoUgha5");
 
-resend.emails.send({
-    from: 'onboarding@resend.dev',
-    to: 'malalamobilelegends@gmail.com',
-    subject: 'Hello World',
-    html: '<p>Congrats on sending your <strong>first email</strong>!</p>'
-});
+  const { data, error } = await resend.emails.send({
+    from: "onboarding@resend.dev",
+    to: ["malalamobilelegends@gmail.com"],
+    subject,
+    text: "",
+    react: template,
+  });
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+};
