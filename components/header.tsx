@@ -9,12 +9,15 @@ import React from "react";
 import { SearchDrags } from "./search-drags";
 import { CartButton } from "./cart/Cart-Button-header";
 import { signIn, useSession } from "next-auth/react";
+import { ProfileButton } from "./header/profile-button";
+import { AuthModal } from "./header/auth-modal";
 
 interface Props {
   className?: string;
 }
 
 export const Header: React.FC<Props> = ({ className }) => {
+  const [openModalAuth, setOpenModalAuth] = React.useState(false);
   const { data: session } = useSession();
   console.log("session: ", session);
 
@@ -38,14 +41,9 @@ export const Header: React.FC<Props> = ({ className }) => {
 
         {/* правая часть */}
         <div className="flex items-center gap-4">
-          <Button
-            onClick={() => signIn("github", { callbackUrl: "/", redirect: true })}
-            variant={"outline"}
-            className="flex items-center gap-1"
-          >
-            <User size={16} />
-            Войти
-          </Button>
+          <AuthModal open={openModalAuth} onClose={() => setOpenModalAuth(false)} />
+          <ProfileButton onClickSignIn={() => setOpenModalAuth(true)} />
+
           <CartButton />
         </div>
       </Container>
