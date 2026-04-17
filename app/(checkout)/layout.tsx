@@ -4,6 +4,7 @@ import { Metadata } from "next";
 import { Suspense } from "react";
 import "../../app/globals.css";
 import { Toaster } from "react-hot-toast";
+import { Providers } from "@/components/provider/main-provider";
 
 export const metadata: Metadata = {
     title: "Next Pizza | Корзина",
@@ -16,11 +17,12 @@ export default function CheckoutLayout({ children }: { children: React.ReactNode
             <body>
                 <main className="min-h-screen bg-[#f0dedf] pb-10">
                     <Container>
-                        <Suspense>
-                            <Header className="border-b-gray-200" />
-                        </Suspense>
-                        {children}
-                        <Toaster />
+                        <Providers>
+                            <Suspense>
+                                <Header className="border-b-gray-200" />
+                            </Suspense>
+                            {children}
+                        </Providers>
                     </Container>
                 </main>
             </body>
