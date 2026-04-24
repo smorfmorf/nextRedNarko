@@ -16,14 +16,14 @@ export default function CheckoutLayout({ children }: { children: React.ReactNode
         <html lang="en">
             <body>
                 <main className="min-h-screen bg-[#f0dedf] pb-10">
-                    <Container>
-                        <Providers>
+                    <Providers>
+                        <Container>
                             <Suspense>
                                 <Header className="border-b-gray-200" />
                             </Suspense>
                             {children}
-                        </Providers>
-                    </Container>
+                        </Container>
+                    </Providers>
                 </main>
             </body>
         </html>
