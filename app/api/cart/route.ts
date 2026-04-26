@@ -38,6 +38,8 @@ export async function GET(req: NextRequest) {
   }
 }
 
+
+// при добавлении товара к корзину создаем токен в куках или используем существующий
 export async function POST(req: NextRequest) {
 
   async function findOrCreateCart(token: string) {

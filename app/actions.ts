@@ -6,7 +6,7 @@ import prisma from "@/prisma/prisma.client";
 import { OrderStatus } from "@prisma/client";
 import { createPayment } from "@/lib/YooCasa";
 import { sendEmail } from "@/lib/resend-email";
-import { PayOrderTemplate } from "@/components/form/pay-order";
+import { PayOrderTemplate } from "@/components/templates/pay-order";
 import { ReactNode } from "react";
 
 export async function createOrder(data: CheckoutFormValues) {
@@ -19,7 +19,6 @@ export async function createOrder(data: CheckoutFormValues) {
     }
 
     // находим корзину по токену
-
     const userCart = await prisma.cart.findFirst({
       include: {
         user: true,
@@ -80,6 +79,7 @@ export async function createOrder(data: CheckoutFormValues) {
       },
     });
 
+    //! Создание заказа Юкасса
     const paymentData = await createPayment({
       amount: order.totalAmount,
       orderId: order.id,
@@ -102,7 +102,7 @@ export async function createOrder(data: CheckoutFormValues) {
     const paymentUrl = paymentData.confirmation.confirmation_url;
     await sendEmail(
       //   data.email,
-      "Next Pizza / Оплатите заказ #" + order.id,
+      "Tatto Moll / Оплатите заказ #" + order.id,
       PayOrderTemplate({
         orderId: order.id,
         totalAmount: order.totalAmount,
