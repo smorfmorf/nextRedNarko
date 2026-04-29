@@ -8,7 +8,6 @@ import { Container } from "@/components/container";
 import { FormInput } from "@/components/form/form-input";
 import { Title } from "@/components/title";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useCard } from "@/hooks/use-card";
 import { Ingredient } from "@prisma/client";
@@ -20,10 +19,9 @@ import { AdressInput } from "@/components/form/addres-input";
 import { ErrorText } from "@/components/form/ErrorText";
 import { createOrder } from "@/app/actions";
 import toast from "react-hot-toast";
-import axios from "axios";
 import { useRouter } from "next/navigation";
+import React from "react";
 
-//! 1) Схема данных для формы
 export const checkoutFormSchema = z.object({
   firstName: z.string().min(0, { message: "Имя должно содержать не менее 2-х символов" }).optional(),
   lastName: z.string().min(0, { message: "Фамилия должна содержать не менее 2-х символов" }).optional(),
@@ -38,20 +36,29 @@ const Nalog = 5;
 const DeliveryPrice = 200;
 
 export default function CheckoutPage() {
+  const [stateSucces, setStateSucces] = React.useState(false);
   const { loading, totalAmount, updateItemQuantity, items, removeCartItem, clearCart } = useCard();
 
   const router = useRouter();
 
   const NalogPrice = Math.round((totalAmount * Nalog) / 100);
 
-  const totalPrice = totalAmount + NalogPrice + DeliveryPrice;
+  let totalPrice = totalAmount;
+  if (totalPrice != 0) {
+    totalPrice = totalPrice + NalogPrice + DeliveryPrice;
+  }
+
+  // React.useEffect(() => {
+  //     if (totalPrice == 0) {
+  //         router.push("/");
+  //     }
+  // }, []);
 
   const onClickCountButton = (id: number, quantity: number, type: "plus" | "minus") => {
     const newQuantity = type === "plus" ? quantity + 1 : quantity - 1;
     updateItemQuantity(id, newQuantity);
   };
 
-  //! 2) создание формы
   const form = useForm({
     resolver: zodResolver(checkoutFormSchema),
     defaultValues: {
@@ -69,10 +76,13 @@ export default function CheckoutPage() {
   async function onSubmit(data: CheckoutFormValues) {
     try {
       const url = await createOrder(data);
+      console.log("url: ", url);
 
-      toast.error("Заказ успешно оформлен! 📝 Переход на оплату... ", {
+      toast.success("Заказ успешно оформлен! 📝 Переход на оплату... ", {
         icon: "✅",
       });
+
+      setStateSucces(true);
 
       if (url) {
         location.href = url;
@@ -119,7 +129,6 @@ export default function CheckoutPage() {
         <>
           <Title text="Оформление заказа" className="font-extrabold mb-8 text-[36px]" />
 
-          {/* Без FormProvider: нужно прокидывать form через props на каждый уровень */}
           <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <div className="flex gap-10">
@@ -210,7 +219,11 @@ export default function CheckoutPage() {
                       }
                       value={totalAmount > 0 && `${DeliveryPrice}₽`}
                     />
-                    <Button type="submit" className="w-full h-14 rounded-2xl mt-6 text-base font-bold">
+                    <Button
+                      disabled={stateSucces}
+                      type="submit"
+                      className="w-full h-14 rounded-2xl mt-6 text-base font-bold"
+                    >
                       Перейти к оплате
                     </Button>
                   </WhiteBlock>

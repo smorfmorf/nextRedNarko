@@ -38,7 +38,7 @@ model User {
     role UserRole @default(USER)
 
     provider   String? //через что авторизация
-    providerId String?
+    providerId String? //id той хуйни через что авторизовались 
 
     createdAt        DateTime          @default(now())
     updateAt         DateTime          @updatedAt
