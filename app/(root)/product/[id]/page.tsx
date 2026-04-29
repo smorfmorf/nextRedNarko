@@ -13,7 +13,7 @@ export default async function ProductModalPage({ params }: PageProps) {
 
   const [product] = await prisma.$queryRaw<
     Array<{ id: number; name: string; imageUrl: string }>
-  >`SELECT id, name, imageUrl FROM Product WHERE id = ${2}`;
+  >`SELECT id, name, imageUrl FROM Product WHERE id = ${id}`;
 
   console.log("rows: ", product);
 

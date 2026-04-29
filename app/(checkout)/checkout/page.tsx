@@ -23,6 +23,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
+//! 1) Схема данных для формы
 export const checkoutFormSchema = z.object({
   firstName: z.string().min(0, { message: "Имя должно содержать не менее 2-х символов" }).optional(),
   lastName: z.string().min(0, { message: "Фамилия должна содержать не менее 2-х символов" }).optional(),
@@ -50,6 +51,7 @@ export default function CheckoutPage() {
     updateItemQuantity(id, newQuantity);
   };
 
+  //! 2) создание формы
   const form = useForm({
     resolver: zodResolver(checkoutFormSchema),
     defaultValues: {
@@ -117,6 +119,7 @@ export default function CheckoutPage() {
         <>
           <Title text="Оформление заказа" className="font-extrabold mb-8 text-[36px]" />
 
+          {/* Без FormProvider: нужно прокидывать form через props на каждый уровень */}
           <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <div className="flex gap-10">
