@@ -39,10 +39,15 @@ export async function POST(req: NextRequest) {
         if (isSucceeded) {
             await sendEmail(
                 // order.email,
-                'Next Pizza / Ваш заказ успешно оформлен 🎉',
+                'Next Pizza / Ваш заказ успешно оформлен 👀',
                 OrderSuccessTemplate({ orderId: order.id, items }) as ReactNode,
             );
         }
+
+
+
+
+
         return NextResponse.json({ error: 'Платеж проведен' });
 
     } catch (error) {

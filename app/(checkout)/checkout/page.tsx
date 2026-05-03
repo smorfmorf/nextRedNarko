@@ -17,7 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { AdressInput } from "@/components/form/addres-input";
 import { ErrorText } from "@/components/form/ErrorText";
-import { createOrder } from "@/app/actions";
+import { createOrder } from "@/app/server-actions";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import React from "react";

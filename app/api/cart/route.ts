@@ -1,3 +1,4 @@
+import { getUserSession } from "@/lib/get-user-session";
 import { updateCartTotalAmount } from "@/lib/update-cart-total-price";
 import prisma from "@/prisma/prisma.client";
 import { CreateCartItemValues } from "@/store/cart-DTO";
@@ -38,29 +39,39 @@ export async function GET(req: NextRequest) {
   }
 }
 
+async function findOrCreateCart(token: string) {
+  const userSession = await getUserSession();
+  let userId: number | null = null;
+  if (userSession) {
+    console.log('userSession: ', userSession);
+    userId = Number(userSession.id);
+  }
 
-// при добавлении товара к корзину создаем токен в куках или используем существующий
-export async function POST(req: NextRequest) {
 
-  async function findOrCreateCart(token: string) {
-    let userCart = await prisma.cart.findFirst({
-      where: {
+  console.log('token: ', token);
+  let userCart = await prisma.cart.findFirst({
+    where: {
+      token,
+    },
+  });
+
+  if (!userCart) {
+    userCart = await prisma.cart.create({
+      data: {
         token,
+        user: {
+          // Здесь можно использовать реальный userId, если пользователь авторизован
+          connect: { id: userId! },
+        },
       },
     });
+  }
+  console.log('userCart: 111111', userCart);
 
-    if (!userCart) {
-      userCart = await prisma.cart.create({
-        data: {
-          token,
-        },
-      });
-    }
-
-    return userCart;
-  };
-
-
+  return userCart;
+};
+// при добавлении товара к корзину создаем токен в куках или используем существующий
+export async function POST(req: NextRequest) {
   try {
     let token = req.cookies.get("cartToken")?.value;
 

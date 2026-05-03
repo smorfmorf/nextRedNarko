@@ -6,6 +6,7 @@ import { Dialog, DialogContent, DialogTitle } from "../ui/dialog";
 import { Button } from "../ui/button";
 import LoginForm from "../auth/login-form";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import RegisterForm from "../auth/register-form";
 interface Props {
     open: boolean;
     onClose: () => void;
@@ -29,7 +30,7 @@ export const AuthModal: React.FC<Props> = ({ open, onClose }) => {
                     <DialogTitle>Настройки</DialogTitle>
                 </VisuallyHidden>
 
-                {type === "login" ? <LoginForm onClose={handleClose} /> : "Регистрация скоро будет доступна"}
+                {type === "login" ? <LoginForm onClose={handleClose} /> : <RegisterForm onClose={handleClose} />}
 
                 <hr />
                 <div className="flex gap-2">

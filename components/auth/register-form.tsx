@@ -1,45 +1,43 @@
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { TFormLoginValues, formLoginSchema } from "./schemas";
+import { TFormLoginValues, TFormRegisterValues, formLoginSchema, formRegisterSchema } from "./schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormInput } from "../form/form-input";
 import { Title } from "../title";
 import { Button } from "../ui/button";
 import { signIn } from "next-auth/react";
 import toast from "react-hot-toast";
+import { registerUser } from "@/app/server-actions";
 
 interface Props {
     onClose?: VoidFunction;
 }
 
-export const LoginForm: React.FC<Props> = ({ onClose }) => {
-    const form = useForm<TFormLoginValues>({
-        resolver: zodResolver(formLoginSchema),
+export const RegisterForm: React.FC<Props> = ({ onClose }) => {
+    const form = useForm<TFormRegisterValues>({
+        resolver: zodResolver(formRegisterSchema),
         defaultValues: {
             email: "",
+            fullName: "",
             password: "",
+            confirmPassword: "",
         },
     });
-    const onSubmit = async (data: TFormLoginValues) => {
+    const onSubmit = async (data: TFormRegisterValues) => {
         try {
-            const resp = await signIn("credentials", {
+            await registerUser({
                 email: data.email,
+                fullName: data.fullName,
                 password: data.password,
-                redirect: false,
             });
 
-            if (!resp?.ok) {
-                throw Error();
-            }
-
-            toast.success("Вы успешно вошли в аккаунт", {
+            toast.error("Регистрация успешна 📝. Подтвердите свою почту", {
                 icon: "✅",
             });
 
             onClose?.();
         } catch (error) {
-            console.error("Error [LOGIN]", error);
-            toast.error("Не удалось войти в аккаунт", {
+            return toast.error("Неверный E-Mail или пароль", {
                 icon: "❌",
             });
         }
@@ -49,23 +47,17 @@ export const LoginForm: React.FC<Props> = ({ onClose }) => {
         // внутри MyInput просто const { register } = useFormContext();
         <FormProvider {...form}>
             <form className="flex flex-col gap-5" onSubmit={form.handleSubmit(onSubmit)}>
-                <div className="flex justify-between items-center">
-                    <div className="mr-2">
-                        <Title text="Вход в аккаунт" size="md" className="font-bold" />
-                        <p className="text-gray-400">Введите свою почту, чтобы войти в свой аккаунт</p>
-                    </div>
-                    <img src="phone-icon.png" alt="phone-icon" width={60} height={60} />
-                </div>
-
                 <FormInput name="email" label="E-Mail" required />
+                <FormInput name="fullName" label="Полное имя" required />
                 <FormInput name="password" label="Пароль" type="password" required />
+                <FormInput name="confirmPassword" label="Подтвердите пароль" type="password" required />
 
                 <Button className="h-12 text-base" type="submit">
-                    Войти
+                    Зарегистрироваться
                 </Button>
             </form>
         </FormProvider>
     );
 };
 
-export default LoginForm;
+export default RegisterForm;

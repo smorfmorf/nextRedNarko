@@ -29,7 +29,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={nunito.className}>
-                <div className="wrapper bg-white w-7/8 mx-auto rounded-md shadow-2xl shadow-black  mt-10">
+                <div className="wrapper bg-white w-7/8 mx-auto rounded-md shadow-2xl shadow-black mt-10">
                     {/* Тут рендерится @modal */}
                     {modal}
                     <Providers>

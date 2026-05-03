@@ -1,6 +1,7 @@
 import { CartDTO, CreateCartItemValues } from "@/store/cart-DTO";
 import { Ingredient, Product } from "@prisma/client";
 import axios from "axios";
+
 const getBaseURL = () => {
   if (typeof window !== "undefined") {
     // браузер

@@ -24,7 +24,7 @@ export async function createPayment(details: Props) {
       },
       confirmation: {
         type: "redirect",
-        return_url: "http://localhost:3000/?paid",
+        return_url: `http://localhost:3000/?orderId=${details.orderId}`,
       },
     },
 

@@ -1,10 +1,10 @@
-import NextAuth from "next-auth";
+import NextAuth, { AuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "@/prisma/prisma.client";
-import { compare } from "bcrypt";
+import { compare, hashSync } from "bcrypt";
 
-export const authOptions = {
+export const authOptions: AuthOptions = {
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_ID || "",
@@ -15,9 +15,11 @@ export const authOptions = {
       name: "Credentials",
       // какие поля принимает провайдер
       credentials: {
-        username: { label: "Email", type: "text" },
+        email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" }
       },
+      // malalamobilelegends@gmail.com
+      // 1) когда через логин и пр вызывается этот метод до signIn метода
       async authorize(
         credentials
       ) {
@@ -27,12 +29,12 @@ export const authOptions = {
 
         // Add your own logic here to check if the user exists in your database
         // For now, we'll just return a mock user
-
         const findUser = await prisma.user.findFirst({
           where: {
-            email: credentials.username,
+            email: credentials.email,
           },
         })
+        console.log('findUser: 0_0 ', findUser);
 
         if (!findUser) {
           return null;
@@ -49,7 +51,7 @@ export const authOptions = {
           email: findUser.email,
           role: findUser.role,
           "mazakaToken": 666
-        };
+        }
       }
     })
   ],
@@ -57,11 +59,15 @@ export const authOptions = {
   session: {
     strategy: "jwt",
   },
-  callback: {
+  callbacks: {
     // 👉 authorize возвращает данные
-    //jwt callback 👉 решает, что сохранить в токене(cookie)
-    // session callback 👉 решает, что увидит фронт
+    // 👉 jwt решает, что сохранить в токене(cookie)
+    // 👉 session решает, что увидит фронт
     async jwt({ token }) {
+
+      if (!token.email) {
+        return token;
+      }
 
       const findUser = await prisma.user.findFirst({
         where: {
@@ -70,25 +76,72 @@ export const authOptions = {
       })
 
       if (findUser) {
-        token.id = findUser.id;
+        token.id = String(findUser.id);
         token.email = findUser.email;
         token.fullName = findUser.fullName;
         token.role = findUser.role;
       }
+      console.log('token: JWT', token);
       return token; // возвращаем токен
     },
+
     async session({ session, token }) {
 
       if (session?.user) {
         session.user.id = token.id;
         session.user.role = token.role;
+        session.user.tox = "tox500";
+      }
+      console.log('session: ', session);
+      return session
+    },
+
+    // вызывается всегда при авторизации
+    async signIn({ user, account }) {
+      console.log('user signIn: ', user);
+
+      if (account?.provider === "credentials") {
+        return true;
       }
 
-      return session
+      if (!user.email) {
+        return false;
+      }
 
+      const findUser = await prisma.user.findFirst({
+        where: {
+          OR: [{ provider: account?.provider, providerId: account?.providerAccountId }, { email: user.email }],
+        },
+      });
+
+      console.log('findUser: ', findUser);
+      if (findUser) {
+        await prisma.user.update({
+          where: {
+            id: findUser.id,
+          },
+          data: {
+            provider: account?.provider,
+            providerId: account?.providerAccountId,
+          },
+        });
+      } else {
+        await prisma.user.create({
+          data: {
+            email: user.email,
+            fullName: user.name || "User #" + user.id,
+            verified: new Date(),
+            password: hashSync(user.id.toString(), 10),
+            provider: account?.provider,
+            providerId: account?.providerAccountId,
+          },
+        });
+      }
+      return true;
     },
-  }
-};
+  },
+}
+
 
 
 // тут прикрутим провайдер для входа в акаунт через логин и пр

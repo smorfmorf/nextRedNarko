@@ -6,7 +6,7 @@ import { ProductsGroupList } from "@/components/products-group-list";
 import { Title } from "@/components/title";
 import { TopBar } from "@/components/topbar";
 import { prisma } from "@/prisma/prisma.client";
-import { postAction } from "@/server-actions/postAction";
+import { postAction } from "@/app/postAction";
 
 export default async function Home({
     searchParams,
