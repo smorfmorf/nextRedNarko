@@ -157,3 +157,25 @@ model VerificationCode {
 
     createdAt DateTime @default(now())
 }
+
+model Story {
+    id              Int    @id @default(autoincrement())
+    previewImageUrl String
+
+    createdAt DateTime @default(now())
+
+    items StoryItem[]
+}
+
+// 1 item -> many(story)
+
+model StoryItem {
+    id Int @id @default(autoincrement())
+
+    sourceUrl String
+
+    createdAt DateTime @default(now())
+
+    story   Story @relation(fields: [storyId], references: [id])
+    storyId Int
+}

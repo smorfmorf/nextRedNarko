@@ -1,5 +1,6 @@
 import { CartDTO, CreateCartItemValues } from "@/store/cart-DTO";
-import { Ingredient, Product } from "@prisma/client";
+import { Ingredient, Product, Story, StoryItem } from "@prisma/client";
+
 import axios from "axios";
 
 const getBaseURL = () => {
@@ -53,6 +54,16 @@ export const addCartItem = async (values: CreateCartItemValues): Promise<CartDTO
   return data;
 };
 
+// narko story API
+export type Interface_Story = Story & {
+  items: StoryItem[];
+}
+
+export const getAllStorys = async () => {
+  const { data } = await axiosInstance.get<Interface_Story[]>(`/storys`);
+  return data;
+}
+
 
 
 export const Api = {
@@ -71,4 +82,8 @@ export const Api = {
 
     clearCart
   },
+
+  storys: {
+    getAllStorys,
+  }
 };
